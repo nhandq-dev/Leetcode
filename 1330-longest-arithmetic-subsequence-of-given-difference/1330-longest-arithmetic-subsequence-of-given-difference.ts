@@ -1,7 +1,5 @@
 function longestSubsequence(arr: number[], difference: number): number {
-    // if (arr.length === 1) return difference === 1 ? 1 : 0;
     const dp: number[] = [];
-    let res = 1;
 
     for (let i=0; i<arr.length; i++) {
         dp[i] = 1;
@@ -12,17 +10,7 @@ function longestSubsequence(arr: number[], difference: number): number {
                 break
             }
         }
-        res = Math.max(res, dp[i])
     }
 
-    // console.log(dp)
-    return res
+    return Math.max(...dp)
 };
-
-// 33/39
-/**
-
-2 - undefined => 3 - undefined = 0
-              => 3 - 2 => 1 +
-
- */
