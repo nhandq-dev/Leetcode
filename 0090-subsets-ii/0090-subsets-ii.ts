@@ -1,5 +1,6 @@
 function subsetsWithDup(nums: number[]): number[][] {
     const res: Map<string, number[]> = new Map()
+    nums.sort((a, b) => a-b)
 
     const traveling = (idx: number, prefix: number[]) => {
         if (nums[idx] === undefined) {
