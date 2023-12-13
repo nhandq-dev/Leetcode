@@ -10,6 +10,7 @@ function numSpecial(mat: number[][]): number {
                 ) {
                     res += 1
                 }
+                break
             }
         }
     }
