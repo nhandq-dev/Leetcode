@@ -1,8 +1,8 @@
 function minOperations(s: string): number {
-    let stepChangeToOne = s[0] === '0' ? 1 : 0
-    let stepChangeToZero = s[0] === '0' ? 0 : 1
+    let stepChangeToOne = 0
+    let stepChangeToZero = 0
 
-    for (let i = 1; i < s.length; i++) {
+    for (let i = 0; i < s.length; i++) {
         if (s[i] === '1') {
             stepChangeToOne += i % 2
             stepChangeToZero += (i + 1) % 2
