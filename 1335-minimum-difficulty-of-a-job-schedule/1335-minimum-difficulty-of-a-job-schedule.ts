@@ -38,7 +38,6 @@ function minDifficulty(jobDifficulty: number[], d: number): number {
 
         return memos.get(`${days}-${left}`)
     }
-    dp(d, 0)
 
     return dp(d, 0)
 };
