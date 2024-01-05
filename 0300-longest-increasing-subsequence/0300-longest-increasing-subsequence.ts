@@ -15,30 +15,3 @@ function lengthOfLIS(nums: number[]): number {
     return res
 };
 
-// function lengthOfLIS(nums: number[]): number {
-//     const memos: Map<string, number> = new Map();
-
-//     const dp = (idx: number, lastIdx: number = undefined): number => {
-//         if (nums[idx] === undefined) return 0;
-
-//         if (!memos.has(`${idx}-${lastIdx}`)) {
-//             if (!nums[lastIdx]) {
-//                 memos.set(`${idx}-${lastIdx}`, Math.max(
-//                     1 + dp(idx+1, idx),
-//                     dp(idx+1, lastIdx)
-//                 ))
-//             } else if (nums[idx] > nums[lastIdx]) {
-//                 memos.set(`${idx}-${lastIdx}`, nums[idx] - nums[lastIdx] === 1 ? 1 + dp(idx+1, idx) : Math.max(
-//                     1 + dp(idx+1, idx),
-//                     dp(idx+1, lastIdx)
-//                 ))
-//             } else {
-//                 memos.set(`${idx}-${lastIdx}`, dp(idx+1, lastIdx))
-//             }
-//         }
-
-//         return memos.get(`${idx}-${lastIdx}`);
-//     }
-
-//     return dp(0)
-// };
