@@ -15,16 +15,14 @@ function romanToInt(s: string): number {
     romanLetterMap.set('CM', 900)
 
     let res = 0
-    const sAsArray = s.split('')
     let candidate = ''
 
-    while (sAsArray.length !== 0) {
-        const letter = sAsArray.shift()
+    for (let i = 0; i < s.length; i++) {
+        const letter = s[i]
 
         if (romanLetterMap.has(`${candidate}${letter}`)) {
             candidate += letter
         } else {
-            console.log(candidate)
             res += romanLetterMap.get(candidate) || 0
             candidate = letter
         }
