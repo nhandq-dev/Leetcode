@@ -1,35 +1,22 @@
 function sumSubarrayMins(arr: number[]): number {
     let res: number = 0
+    const dp: number[] = []
+    const stack: number[] = []
 
-    for (let i = 0; i < arr.length; i++) { // n
-        let leftCount = 0
-        let rightCount = 0
-
-        for (let leftRunner = i - 1; leftRunner >= 0; leftRunner--) {
-            if (arr[leftRunner] < arr[i]) break
-            leftCount++
+    for (let i = 0; i < arr.length; i++) {
+        while (stack.length !== 0 && arr[stack[stack.length-1]] >= arr[i]) {
+            stack.pop()
         }
 
-        for (let rightRunner = i + 1; rightRunner < arr.length; rightRunner++) {
-            if (arr[rightRunner] <= arr[i]) break
-            rightCount++
+        if (stack.length) {
+            const previousSmaller = stack[stack.length-1]
+            dp[i] = dp[previousSmaller] + (i-previousSmaller)*arr[i]
+        } else {
+            dp[i] = (i+1)*arr[i]
         }
-
-        res += (leftCount + rightCount + leftCount*rightCount + 1) * arr[i]
-        res %= (10 ** 9 + 7)
+        stack.push(i)
+        res += dp[i]
     }
 
     return res % (10 ** 9 + 7)
 };
-
-/**
-7   5   8   5
-
-7 + 5 + 8 + 5 + 5 + 5 + 5 + 5 + 5 +5
-
-7
-(7,5) + (5,8) + (5,8,5) + (7,5,8) + (7,5,8,5) + 5
-8
-5 + (8,5)
-
- */
