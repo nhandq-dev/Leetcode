@@ -12,7 +12,6 @@ function removeKdigits(num: string, k: number): string {
         }
         if (k === 0) break
 
-
         stack.push(i)
     }
 
