@@ -3,7 +3,7 @@ function maxLength(arr: string[]): number {
         let binaryStr: string = '00000000000000000000000000'
 
         for (let i = 0; i < str.length; i++) {
-            const currChar = str.charCodeAt(i) - 97; // 97 was the code for the first letter a
+            const currChar = str.charCodeAt(i) - 97
             if (binaryStr[currChar] === '1') return 0
 
             binaryStr = binaryStr.slice(0, currChar) + '1' + binaryStr.slice(currChar + 1)
@@ -17,6 +17,7 @@ function maxLength(arr: string[]): number {
 
     for (const item of arr) {
         const encodedItem = encodeStr(item)
+
         if (encodedItem !== 0) {
             encodedArr.push(encodedItem)
             filteredArr.push(item)
@@ -30,7 +31,7 @@ function maxLength(arr: string[]): number {
         if (!memos.has(`${idx},${prefix}`)) {
             if ((prefix ^ encodedArr[idx]) === (prefix | encodedArr[idx])) {
                 memos.set(`${idx},${prefix}`, Math.max(
-                    filteredArr[idx].length + dp(idx+1, prefix | encodedArr[idx]),
+                    filteredArr[idx].length + dp(idx + 1, prefix | encodedArr[idx]),
                     dp(idx + 1, prefix)
                 ))
             } else {
