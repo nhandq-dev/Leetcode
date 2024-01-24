@@ -15,24 +15,42 @@
 function pseudoPalindromicPaths (root: TreeNode | null): number {
     let res = 0
 
-    const dfs = (node: TreeNode | null, prefix: number = 0): void => {
-        prefix ^= (1 << node.val)
-        if (node.left === null && node.right === null) {
-            if (prefix === 0 || Math.log2(prefix) % 1 === 0) {
-                res += 1
+    const bfs = (): void => {
+        const stack: {
+            node: TreeNode,
+            prefixXor: number
+        }[] = [
+            {
+                node: root,
+                prefixXor: 0
             }
-            return
-        }
+        ]
 
-        if (node.left) {
-            dfs(node.left, prefix)
-        }
+        while (stack.length !== 0) {
+            const { node: currNode, prefixXor: currPrefix } = stack.shift()
 
-        if (node.right) {
-            dfs(node.right, prefix)
+            if (currNode.left === null && currNode.right === null) {
+                const newPrefix = currPrefix ^ (1 << currNode.val)
+                res += newPrefix === 0 || Math.log2(newPrefix) % 1 === 0 ? 1 : 0
+                continue
+            }
+
+            if (currNode.left !== null) {
+                stack.push({
+                    node: currNode.left,
+                    prefixXor: currPrefix ^ (1 << currNode.val)
+                })
+            }
+
+            if (currNode.right !== null) {
+                stack.push({
+                    node: currNode.right,
+                    prefixXor: currPrefix ^ (1 << currNode.val)
+                })
+            }
         }
     }
-    dfs(root)
+    bfs()
 
     return res
 };
