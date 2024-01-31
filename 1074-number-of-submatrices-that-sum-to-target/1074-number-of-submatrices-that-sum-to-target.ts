@@ -1,38 +1,35 @@
 function numSubmatrixSumTarget(matrix: number[][], target: number): number {
-    const n = matrix.length;
-    const m = matrix[0].length;
+    const m = matrix.length
+    const n = matrix[0].length
+    const prefixSum: number[][] = Array.from({ length: m+1 }, () => Array.from({length: n+1}, () => 0));
 
-    // Initialize a prefix sum matrix
-    const prefixSum = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
-
-    for (let i = 1; i <= n; i++) {
-        for (let j = 1; j <= m; j++) {
-            prefixSum[i][j] = matrix[i - 1][j - 1] +
-                prefixSum[i - 1][j] +
-                prefixSum[i][j - 1] -
-                prefixSum[i - 1][j - 1];
+    for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+            prefixSum[i][j] = prefixSum[i - 1][j]
+                                + prefixSum[i][j - 1]
+                                + matrix[i - 1][j - 1]
+                                - prefixSum[i - 1][j - 1]
         }
     }
 
-    let count = 0;
-
-    // Iterate over all possible submatrices
-    for (let top = 1; top <= n; top++) {
-        for (let bottom = top; bottom <= n; bottom++) {
-            for (let left = 1; left <= m; left++) {
-                for (let right = left; right <= m; right++) {
-                    const sum = prefixSum[bottom][right] -
-                        prefixSum[top - 1][right] -
-                        prefixSum[bottom][left - 1] +
-                        prefixSum[top - 1][left - 1];
+    let res = 0
+    for (let topRunner = 1; topRunner <= m; topRunner++) {
+        for (let bottomRunner = topRunner; bottomRunner <= m; bottomRunner++) {
+            for (let leftRunner = 1; leftRunner <= n; leftRunner++) {
+                for (let rightRunner = leftRunner; rightRunner <= n; rightRunner++) {
+                    const sum = 
+                        prefixSum[bottomRunner][rightRunner]
+                        - prefixSum[topRunner-1][rightRunner]
+                        - prefixSum[bottomRunner][leftRunner-1]
+                        + prefixSum[topRunner-1][leftRunner-1]
 
                     if (sum === target) {
-                        count++;
+                        res += 1
                     }
                 }
             }
         }
     }
 
-    return count;
+    return res
 }
