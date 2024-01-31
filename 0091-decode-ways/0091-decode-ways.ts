@@ -1,33 +1,16 @@
 function numDecodings(s: string): number {
-    let res: number = 0;
-    const memorize: Map<string, number> = new Map()
+    const memorize: Map<number, number> = new Map()
+    let res = 0
 
-    const traveling = function (s: string): boolean {
-        if (s[0] === '0') return false;
-        if (s.length === 1) {
-            res += 1;
-            return true;
-        }
-
-        if (memorize.has(s)) {
-            res += memorize.get(s)
-            return true;
+    const traveling = function (idx: number): boolean {
+        if (idx === 0) {
+            if (s[0] === '0')
+            return true
         }
 
-        if (traveling(s.substring(1))) {
-            memorize.set(s, res)
-        }
-        if (parseInt(s[0] + s[1]) < 27) {
-            if (s.length === 2) {
-                res += 1;
-                memorize.set(s, res)
-            } else if (s.length > 2 && traveling(s.substring(2))) {
-                memorize.set(s, res)
-            }
-        }
-        return true;
+        if (s[idx] === '1' || s[idx] === '2')
     }
-    traveling(s);
+    traveling(s.length-1)
 
-    return res;
+    return res
 };
