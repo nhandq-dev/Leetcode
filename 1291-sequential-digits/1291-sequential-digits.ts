@@ -1,39 +1,28 @@
 function sequentialDigits(low: number, high: number): number[] {
     const res: number[] = []
-    let lowDigiRunner = 0
-    let lowestSequential = new Array(low.toString().length).fill(0).map((_, i) => i + parseInt(low.toString()[0]) + lowDigiRunner).join('')
+    let candidate = toSequentialDigits(low)
 
-    if (lowestSequential.toString().length > low.toString().length) {
-        lowDigiRunner = 0
-        low = parseInt((1 << low.toString().length).toString(2))
-        lowestSequential = new Array(low.toString().length).fill(0).map((_, i) => i + parseInt(low.toString()[0]) + lowDigiRunner).join('')
-    }
-
-    while (parseInt(lowestSequential) < low) {
-        if (lowestSequential[lowestSequential.length-1] === '9') {
-            lowDigiRunner = 0
-            low = parseInt((1 << low.toString().length).toString(2))
-            lowestSequential = new Array(low.toString().length).fill(0).map((_, i) => i + parseInt(low.toString()[0]) + lowDigiRunner).join('')
-            continue
-        }
-
-        lowDigiRunner += 1
-        lowestSequential = new Array(low.toString().length).fill(0).map((_, i) => i + parseInt(low.toString()[0]) + lowDigiRunner).join('')
-    }
-
-    while (parseInt(lowestSequential) <= high) {
-        res.push(parseInt(lowestSequential))
-
-        if (lowestSequential[lowestSequential.length-1] === '9') {
-            lowDigiRunner = 0
-            low = parseInt((1 << low.toString().length).toString(2))
-            lowestSequential = new Array(low.toString().length).fill(0).map((_, i) => i + parseInt(low.toString()[0]) + lowDigiRunner).join('')
-            continue
-        }
-
-        lowDigiRunner += 1
-        lowestSequential = new Array(low.toString().length).fill(0).map((_, i) => i + parseInt(low.toString()[0]) + lowDigiRunner).join('')
+    while (candidate <= high) {
+        res.push(candidate)
+        candidate = toSequentialDigits(candidate+1)
     }
 
     return res
 };
+
+function toSequentialDigits(num: number): number {
+    let candidate = new Array(num.toString().length).fill(0).map((_, i) => i + parseInt(num.toString()[0])).join('')
+
+    let candidateRunner = 0
+    while (parseInt(candidate) < num) {
+        candidateRunner += 1
+        candidate = new Array(num.toString().length).fill(0).map((_, i) => i + parseInt(num.toString()[0]) + candidateRunner).join('')
+    }
+
+    if (candidate.toString().length > num.toString().length) {
+        const lowestNumWithBiggerLength = parseInt((1 << num.toString().length).toString(2))
+        return parseInt(new Array(lowestNumWithBiggerLength.toString().length).fill(0).map((_, i) => i + parseInt(lowestNumWithBiggerLength.toString()[0])).join(''))
+    }
+
+    return parseInt(candidate);
+}
