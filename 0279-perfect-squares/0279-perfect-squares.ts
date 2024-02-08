@@ -1,15 +1,24 @@
 function numSquares(n: number): number {
-  const recusive = (currN: number, maxSum: number): number => {
-    if (maxSum === 1) return currN;
-    if (Math.sqrt(currN) % 1 === 0) return 1;
+    const memos: Map<number, number> = new Map()
 
-    let res = currN;
-    for (let i = Math.floor(Math.sqrt(currN)); i>0; i--) {
-      res = Math.min(res, 1 + recusive(currN-i**2, Math.min(maxSum-1, res)));
+    const dp = (target: number): number => {
+        if (target < 4) return target
+        if (!memos.has(target)) {
+            let candidate = Math.floor(Math.sqrt(target))
+            let res = Infinity
+
+            for (let i = candidate; i >= 1; i--) {
+                res = Math.min(
+                    1 + dp(target - i * i),
+                    res
+                )
+            }
+
+            memos.set(target, res)
+        }
+
+        return memos.get(target)
     }
 
-    return res;
-  }
-
-  return recusive(n, n);
+    return dp(n)
 };
