@@ -5,9 +5,9 @@ function numSquares(n: number): number {
         if (target < 4) return target
         if (!memos.has(target)) {
             let candidate = Math.floor(Math.sqrt(target))
-            let res = Infinity
+            let res = target
 
-            for (let i = candidate; i >= 1; i--) {
+            for (let i = candidate; i > 1; i--) {
                 res = Math.min(
                     1 + dp(target - i * i),
                     res
