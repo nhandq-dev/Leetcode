@@ -8,6 +8,10 @@ function majorityElement(nums: number[]): number {
         if (stack.get(num) > stack.get(res)) {
             res = num;
         }
+
+        if (stack.get(res) >= nums.length/2) {
+            break
+        }
     }
 
     return res;
