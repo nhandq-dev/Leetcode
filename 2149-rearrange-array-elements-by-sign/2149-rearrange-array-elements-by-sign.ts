@@ -1,5 +1,5 @@
 function rearrangeArray(nums: number[]): number[] {
-    let res: number[] = Array.from({ length: nums.length })
+    let res: number[] = Array(nums.length)
     let nextPIdx = 0
     let nextNIdx = 1
 
