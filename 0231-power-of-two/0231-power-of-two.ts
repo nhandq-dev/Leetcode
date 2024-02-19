@@ -1,3 +1,3 @@
 function isPowerOfTwo(n: number): boolean {
-    return 2 ** ((n).toString(2).length-1) === n
+    return Math.log2(n) % 1 === 0
 };
