@@ -1,38 +1,17 @@
 function getCommon(nums1: number[], nums2: number[]): number {
-    if (nums1[0] > nums2[0]) return getCommon(nums2, nums1)
-    if (nums2[0] > nums1[nums1.length - 1]) return -1
-    if (nums1[0] === nums2[0]) return nums1[0]
+    if (nums1[0] > nums2[nums2.length - 1] || nums2[0] > nums1[nums1.length - 1]) return -1
+    let runner1 = 0
+    let runner2 = 0
 
-    while (nums1[0] !== nums2[0]) {
-        if (nums1[0] > nums2[0]) {
-            nums2.shift()
+    while (runner1 < nums1.length && runner2 < nums2.length) {
+        if (nums1[runner1] === nums2[runner2]) return nums1[runner1]
+
+        if (nums1[runner1] > nums2[runner2]) {
+            runner2++
         } else {
-            nums1.shift()
-        }
-
-        if (nums1.length === 0 || nums2.length === 0) {
-            return -1
+            runner1++
         }
     }
 
-    return nums1[0]
+    return -1
 };
-
-function binarySearch(arr: number[], candidate: number): number {
-    let l = 0
-    let r = arr.length - 1
-
-    while (l <= r) {
-        const mid = l + Math.floor((r-l)/2)
-
-        if (candidate === arr[mid]) {
-            return mid
-        } if (candidate > arr[mid]) {
-            l = mid + 1
-        } else {
-            r = mid - 1
-        }
-    }
-
-    return l
-}
