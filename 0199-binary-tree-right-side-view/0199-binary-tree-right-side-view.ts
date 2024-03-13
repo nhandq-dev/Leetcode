@@ -14,32 +14,24 @@
 
 function rightSideView(root: TreeNode | null): number[] {
     if (root === null) return []
-    let stackOfTree: TreeNode[] = [root]
+    let queueOfTree: TreeNode[] = [root]
     const res: number[] = []
 
-    while (stackOfTree.length !== 0) {
-        const nextStack: TreeNode[] = []
-        const lastItem = stackOfTree.pop()
-        res.push(lastItem.val)
+    while (queueOfTree.length !== 0) {
+        const n = queueOfTree.length - 1
 
-        if (lastItem.right) {
-            nextStack.unshift(lastItem.right)
-        }
-        if (lastItem.left) {
-            nextStack.unshift(lastItem.left)
-        }
-
-        for (let i = stackOfTree.length - 1; i >= 0; i--) {
-            const currItem = stackOfTree[i]
+        for (let i = n; i >= 0; i--) {
+            const currItem = queueOfTree.pop()
+            if (i === n) {
+                res.push(currItem.val)
+            }
             if (currItem.right) {
-                nextStack.unshift(currItem.right)
+                queueOfTree.unshift(currItem.right)
             }
             if (currItem.left) {
-                nextStack.unshift(currItem.left)
+                queueOfTree.unshift(currItem.left)
             }
         }
-
-        stackOfTree = nextStack
     }
 
     return res
