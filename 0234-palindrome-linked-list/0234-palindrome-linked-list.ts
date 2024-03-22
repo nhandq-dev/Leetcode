@@ -11,28 +11,40 @@
  */
 
 function isPalindrome(head: ListNode | null): boolean {
-  if (head.next === null) return true;
-  const stackFirstHaft: number[] = [];
-  const stackLastHaft: number[] = [];
+    if (head.next === null) return true;
+    const stack: number[] = [];
+    let doubleStep = head.next.next
 
-  const backTracking = (node: ListNode, doubleStep: ListNode | null): void => {
-    stackFirstHaft.push(node.val);
+    while (head !== null) {
+        stack.push(head.val);
 
-    if (doubleStep === null || doubleStep.next === null) {
-      node = node.next;
-      while (node !== null) {
-        stackLastHaft.unshift(node.val);
-        node = node.next;
-      }
-      return;
+        // event number of node
+        if (doubleStep === null) {
+            head = head.next;
+            while (head !== null) {
+                if (head.val !== stack.pop()) {
+                    return false
+                }
+                head = head.next
+            }
+            return true;
+        }
+        // odd number of node
+        if (doubleStep.next === null) {
+            head = head.next.next;
+            while (head !== null) {
+                if (head.val !== stack.pop()) {
+                    return false
+                }
+                head = head.next
+            }
+            return true;
+        }
+
+        head = head.next
+        doubleStep = doubleStep.next.next
     }
-    backTracking(node.next, doubleStep.next.next);
-    return;
-  }
-  backTracking(head, head.next.next)
-  if (stackLastHaft.length > stackFirstHaft.length) {
-    stackLastHaft.pop();
-  }
 
-  return JSON.stringify(stackFirstHaft) === JSON.stringify(stackLastHaft);
+
+    return false;
 };
