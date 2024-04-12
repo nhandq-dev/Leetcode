@@ -14,14 +14,12 @@ function trap(height: number[]): number {
 
     for (let i = 1; i < n - 1; i++) {
         leftWindow = Math.max(leftWindow, height[i])
-        const biggestLeftBuilding = leftWindow
 
-        const biggestRightBuilding = rightWindow[0];
+        res += Math.min(leftWindow, rightWindow[0]) - height[i]
+
         if (height[i] === rightWindow[0]) {
             rightWindow.shift()
         }
-
-        res += Math.min(biggestLeftBuilding, biggestRightBuilding) - height[i]
     }
 
     return res
