@@ -1,9 +1,9 @@
 function minFallingPathSum(grid: number[][]): number {
     const n = grid.length
     if (n === 1) return grid[0][0]
-    const dp: number[][] = Array.from({ length: n }).map(_ => Array.from({ length: n }).map(_ => 0))
+    const dp: number[][] = Array.from({ length: n }).map(_ => Array.from({ length: n }))
     let res = Number.POSITIVE_INFINITY
-    // first row
+
     let [firstMin, secondMin] = [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY]
     for (let i = 0; i < n; i++) {
         dp[0][i] = grid[0][i]
