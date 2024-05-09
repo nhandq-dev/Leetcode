@@ -1,19 +1,15 @@
 function maxProduct(nums: number[]): number {
-    const memos: Map<string, number> = new Map()
+    let [maxSoFar, minSoFar] = [nums[0], nums[0]]
+    let res = nums[0]
 
-    const dp = (idx: number, prefix?: number) => {
-        if (nums[idx] === undefined) return Number.NEGATIVE_INFINITY
+    for (let i = 1; i < nums.length; i++) {
+        const num = nums[i]
+        const cache = num * maxSoFar
 
-        if (!memos.has(`${idx}-${prefix}`)) {
-            memos.set(`${idx}-${prefix}`, Math.max(
-                prefix ? prefix * nums[idx] : nums[idx],
-                dp(idx + 1, prefix ? prefix * nums[idx] : nums[idx]),
-                dp(idx + 1)
-            ))
-        }
-
-        return memos.get(`${idx}-${prefix}`)
+        maxSoFar = Math.max(num, num * maxSoFar, num * minSoFar)
+        minSoFar = Math.min(num, cache, num * minSoFar)
+        res = Math.max(res, maxSoFar)
     }
 
-    return dp(0)
+    return res
 };
