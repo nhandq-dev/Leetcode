@@ -9,7 +9,7 @@ function findMin(nums: number[]): number {
         } else if (nums[m] > nums[r]) {
             l = m
         } else {
-            return nums[0]
+            return nums[l]
         }
 
         if (l === r-1) {
@@ -17,16 +17,5 @@ function findMin(nums: number[]): number {
         }
     }
 
-    return nums[l % (nums.length - 1)]
+    return nums[l]
 };
-
-/**
-
-Statement
-
-In a right ASC order if we have l < m < r
-then nums[l] < nums[m] < nums[r]
-
-
-
- */
