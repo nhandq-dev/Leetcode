@@ -3,8 +3,8 @@ function productExceptSelf(nums: number[]): number[] {
     let res = []
     const n = nums.length
 
-    for (let i = 0; i < n; i++) {
-        prefixProd *= nums[i]
+    for (const num of nums) {
+        prefixProd *= num
         res.push(prefixProd)
     }
 
@@ -17,16 +17,3 @@ function productExceptSelf(nums: number[]): number[] {
 
     return res
 };
-
-/**
-
-    1   2   3   4
-    1   2   6   24
-    24  24  12  4
-
-
-
-    24  12  8   6
-
-
- */
