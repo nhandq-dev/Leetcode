@@ -1,26 +1,32 @@
 function productExceptSelf(nums: number[]): number[] {
-    let productWithout0: number = 1;
-    let zeroPosition: number = -1;
+    let prefixProd = 1
+    let res = []
+    const n = nums.length
 
-    for (let i=0; i<nums.length; i++) {
-        if (nums[i] === 0) {
-            if (zeroPosition !== -1) {
-                return new Array(nums.length).fill(0);
-            }
-            zeroPosition = i;
-        } else {
-            productWithout0 *= nums[i];
-        }
-    }
-    if (zeroPosition !== -1) {
-        const result: number[] = new Array(nums.length).fill(0);
-        result.splice(zeroPosition, 1, productWithout0)
-        return result;
+    for (let i = 0; i < n; i++) {
+        prefixProd *= nums[i]
+        res.push(prefixProd)
     }
 
-    const res: number[] = [];
-    for (let i=0; i<nums.length; i++) {
-        res.push(productWithout0/nums[i]);
+    let suffixProd = 1
+    for (let i = n - 1; i > 0; i--) {
+        res[i] = res[i-1] * suffixProd
+        suffixProd *= nums[i]
     }
-    return res;
+    res[0] = suffixProd
+
+    return res
 };
+
+/**
+
+    1   2   3   4
+    1   2   6   24
+    24  24  12  4
+
+
+
+    24  12  8   6
+
+
+ */
