@@ -1,11 +1,15 @@
 function partition(s: string): string[][] {
     const isPalindrome = _.memoize((str: string): boolean => {
         if (str.length === 0) return false
-        const mid = Math.floor(str.length / 2)
+        let l = 0, r = str.length - 1
 
-        return str.length % 2 === 0 ?
-            str.substring(0, mid) === str.substring(mid).split('').reverse().join('') :
-            str.substring(0, mid) === str.substring(mid + 1).split('').reverse().join('')
+        while (l < r) {
+            if (str[l] !== str[r]) return false
+            l++
+            r--
+        }
+
+        return true
     })
 
     const backTracking = _.memoize((idx: number): string[][] => {
