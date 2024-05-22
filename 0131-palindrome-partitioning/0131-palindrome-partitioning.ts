@@ -1,51 +1,54 @@
 class PalindromeString {
-    private firstHaft: string[];
-    private rotatedSecondHaft: string[];
+    private firstHaft: string;
+    private secondHaft: string
 
     constructor() {
-        this.firstHaft = []
-        this.rotatedSecondHaft = []
+        this.firstHaft = ''
+        this.secondHaft = ''
     }
 
     isPalindrome(): boolean {
-        if (this.firstHaft.length === 0 && this.rotatedSecondHaft.length === 0) {
+        if (this.firstHaft === '' && this.secondHaft === '') {
             return false
         }
-        const minLength = Math.min(this.firstHaft.length, this.rotatedSecondHaft.length)
+        const minLength = Math.min(this.firstHaft.length, this.secondHaft.length)
 
-        return this.firstHaft.length === this.rotatedSecondHaft.length ?
-            this.firstHaft.join('') === this.rotatedSecondHaft.join('') :
+        return this.firstHaft.length === this.secondHaft.length ?
+            this.firstHaft === this.secondHaft :
             this.firstHaft.length === minLength ?
-                this.firstHaft.join('') === this.rotatedSecondHaft.slice(0, minLength).join('') :
-                this.firstHaft.slice(0, minLength).join('') === this.rotatedSecondHaft.join('')
+                this.firstHaft === this.secondHaft.slice(0, minLength) :
+                this.firstHaft.slice(0, minLength) === this.secondHaft
     }
 
     insert(char: string): void {
-        const minLength = Math.min(this.firstHaft.length, this.rotatedSecondHaft.length)
+        const minLength = Math.min(this.firstHaft.length, this.secondHaft.length)
 
-        if (this.firstHaft.length !== this.rotatedSecondHaft.length && this.firstHaft.length === minLength) {
-            this.firstHaft.push(this.rotatedSecondHaft.pop())
+        if (this.firstHaft.length !== this.secondHaft.length && this.firstHaft.length === minLength) {
+            this.firstHaft = `${this.firstHaft}${this.secondHaft[minLength]}`
+            this.secondHaft = this.secondHaft.substring(0, minLength)
         }
 
-        this.rotatedSecondHaft.unshift(char)
+        this.secondHaft = `${char}${this.secondHaft}`
     }
 
     pop(): void {
-        this.rotatedSecondHaft.shift()
-        const minLength = Math.min(this.firstHaft.length, this.rotatedSecondHaft.length)
+        this.secondHaft = this.secondHaft.substring(0, this.secondHaft.length - 1)
+        const minLength = Math.min(this.firstHaft.length, this.secondHaft.length)
 
-        if (this.firstHaft.length !== this.rotatedSecondHaft.length && this.rotatedSecondHaft.length === minLength) {
-            this.rotatedSecondHaft.push(this.firstHaft.pop())
+        if (this.firstHaft.length !== this.secondHaft.length && this.secondHaft.length === minLength) {
+            this.secondHaft = `${this.secondHaft}${this.firstHaft[minLength]}`
+            this.firstHaft = this.firstHaft.substring(0, minLength)
         }
     }
 
     get(): string {
-        return this.firstHaft.concat([...this.rotatedSecondHaft].reverse()).join('')
+        return `${this.firstHaft}${this.secondHaft.split('').reverse().join('')}`
     }
 }
 
 function partition(s: string): string[][] {
     const memos: Map<number, string[][]> = new Map()
+
     const backTracking = (idx: number): string[][] => {
         if (s[idx] === undefined) return []
         if (!memos.has(idx)) {
@@ -53,7 +56,7 @@ function partition(s: string): string[][] {
             let res: string[][] = []
 
             for (let i = idx; i < s.length; i++) {
-                palindromeStr.insert(s[i]) // aab
+                palindromeStr.insert(s[i])
 
                 if (!palindromeStr.isPalindrome()) {
                     continue
@@ -62,12 +65,12 @@ function partition(s: string): string[][] {
                 if (i === s.length - 1) {
                     res.push([palindromeStr.get()])
                 }
-                const nextPathRes = backTracking(i + 1) //[ [ 'b' ] ]
+                const nextPathRes = backTracking(i + 1)
+
                 if (nextPathRes.length) {
-                    res = [...res, ...nextPathRes.reduce((carr: string[][], item: string[]) => [
-                        ...carr,
-                        [palindromeStr.get(), ...item]
-                    ], [])] // [ ['a', 'a', 'b'], ['aa', 'b'] ]
+                    nextPathRes.map((item: string[]) => {
+                        res.push([palindromeStr.get(), ...item])
+                    })
                 }
             }
 
