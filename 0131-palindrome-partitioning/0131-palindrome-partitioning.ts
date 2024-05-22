@@ -1,6 +1,6 @@
 class PalindromeString {
     private firstHaft: string;
-    private secondHaft: string
+    private secondHaft: string;
 
     constructor() {
         this.firstHaft = ''
@@ -47,38 +47,33 @@ class PalindromeString {
 }
 
 function partition(s: string): string[][] {
-    const memos: Map<number, string[][]> = new Map()
-
-    const backTracking = (idx: number): string[][] => {
+    const backTracking = _.memoize((idx: number): string[][] => {
         if (s[idx] === undefined) return []
-        if (!memos.has(idx)) {
-            const palindromeStr = new PalindromeString()
-            let res: string[][] = []
 
-            for (let i = idx; i < s.length; i++) {
-                palindromeStr.insert(s[i])
+        const palindromeStr = new PalindromeString()
+        let res: string[][] = []
 
-                if (!palindromeStr.isPalindrome()) {
-                    continue
-                }
+        for (let i = idx; i < s.length; i++) {
+            palindromeStr.insert(s[i])
 
-                if (i === s.length - 1) {
-                    res.push([palindromeStr.get()])
-                }
-                const nextPathRes = backTracking(i + 1)
-
-                if (nextPathRes.length) {
-                    nextPathRes.map((item: string[]) => {
-                        res.push([palindromeStr.get(), ...item])
-                    })
-                }
+            if (!palindromeStr.isPalindrome()) {
+                continue
             }
 
-            memos.set(idx, res)
+            if (i === s.length - 1) {
+                res.push([palindromeStr.get()])
+            }
+            const nextPathRes = backTracking(i + 1)
+
+            if (nextPathRes.length) {
+                nextPathRes.map((item: string[]) => {
+                    res.push([palindromeStr.get(), ...item])
+                })
+            }
         }
 
-        return memos.get(idx)
-    }
+        return res
+    })
 
     return backTracking(0)
 };
