@@ -47,27 +47,43 @@ class PalindromeString {
 }
 
 function partition(s: string): string[][] {
+    const setOfPalindrome: Map<string, boolean> = new Map()
+    const isPalindrome = (str: string): boolean => {
+        if (str.length === 0) return false
+
+        if (!setOfPalindrome.has(str)) {
+            const mid = Math.floor(str.length / 2)
+
+            setOfPalindrome.set(str, str.length % 2 === 0 ?
+                str.substring(0, mid) === str.substring(mid).split('').reverse().join('') :
+                str.substring(0, mid) === str.substring(mid + 1).split('').reverse().join('')
+            )
+        }
+
+        return setOfPalindrome.get(str)
+    }
+
     const backTracking = _.memoize((idx: number): string[][] => {
         if (s[idx] === undefined) return []
 
-        const palindromeStr = new PalindromeString()
+        let palindromeStr = ''
         let res: string[][] = []
 
         for (let i = idx; i < s.length; i++) {
-            palindromeStr.insert(s[i])
+            palindromeStr = `${palindromeStr}${s[i]}`
 
-            if (!palindromeStr.isPalindrome()) {
+            if (!isPalindrome(palindromeStr)) {
                 continue
             }
 
             if (i === s.length - 1) {
-                res.push([palindromeStr.get()])
+                res.push([palindromeStr])
             }
             const nextPathRes = backTracking(i + 1)
 
             if (nextPathRes.length) {
                 nextPathRes.map((item: string[]) => {
-                    res.push([palindromeStr.get(), ...item])
+                    res.push([palindromeStr, ...item])
                 })
             }
         }
