@@ -15,11 +15,10 @@ function partition(s: string): string[][] {
     const backTracking = _.memoize((idx: number): string[][] => {
         if (s[idx] === undefined) return []
 
-        let palindromeStr = ''
-        let res: string[][] = []
+        const res: string[][] = []
 
         for (let i = idx; i < s.length; i++) {
-            palindromeStr = `${palindromeStr}${s[i]}`
+            const palindromeStr = s.substring(idx, i + 1)
 
             if (!isPalindrome(palindromeStr)) {
                 continue
