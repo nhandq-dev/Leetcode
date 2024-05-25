@@ -9,7 +9,6 @@ function coinChange(coins: number[], amount: number): number {
             1 + dp(idx, target - coins[idx]),
         )
     }, (arg1, arg2) => `${arg1}-${arg2}`)
-    const res = dp(0, amount)
 
-    return res === Number.POSITIVE_INFINITY ? -1 : res
+    return dp(0, amount) === Number.POSITIVE_INFINITY ? -1 : dp(0, amount)
 };
