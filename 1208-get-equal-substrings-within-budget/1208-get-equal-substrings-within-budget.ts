@@ -5,7 +5,7 @@ function equalSubstring(s: string, t: string, maxCost: number): number {
     let l = 0, r = 0
     let candidate = 0
 
-    while (l<n && r<n) {
+    while (l<n && r<n && n-l > res) {
         const changeCost = getChangeCost(s[r], t[r])
         while (changeCost > maxCost && r > l) {
             maxCost += getChangeCost(s[l], t[l])
