@@ -1,16 +1,10 @@
 function numSteps(s: string): number {
     const produceAdd = _.memoize((str: string) => {
-        const n = str.length
-        let runner = n - 1
+        const lastIdxOfZero = str.lastIndexOf('0')
+        if (lastIdxOfZero === -1) return '1'.padEnd(str.length + 1, '0')
+        const newStr = str.slice(0, lastIdxOfZero) + '1'
 
-        while (str.at(runner) === '1' && runner >= 0) {
-            str = str.slice(0, runner) + '0' + str.slice(runner + 1)
-            runner--
-        }
-        if (runner < 0) return `1${str}`
-        str = str.slice(0, runner) + '1' + str.slice(runner + 1)
-
-        return str
+        return newStr.padEnd(str.length, '0')
     })
     let count = 0
 
