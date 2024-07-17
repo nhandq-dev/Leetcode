@@ -21,10 +21,8 @@ function delNodes(root: TreeNode | null, to_delete: number[]): Array<TreeNode | 
 
         if (toDelete.has(node.val)) {
             toDelete.delete(node.val)
-            const leftTravel = travelling(node.left)
-            const rightTravel = travelling(node.right)
-            if (leftTravel) res.push(leftTravel)
-            if (rightTravel) res.push(rightTravel)
+            res.push(travelling(node.left))
+            res.push(travelling(node.right))
 
             return null
         }
@@ -33,8 +31,7 @@ function delNodes(root: TreeNode | null, to_delete: number[]): Array<TreeNode | 
         node.right = travelling(node.right)
         return node
     }
-    const mainNode = travelling(root)
-    if (mainNode) res.push(travelling(root))
+    res.push(travelling(root))
 
-    return res
+    return res.filter(Boolean)
 };
