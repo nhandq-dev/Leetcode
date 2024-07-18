@@ -13,42 +13,26 @@
  */
 
 function countPairs(root: TreeNode | null, distance: number): number {
-    let res = 0
-    const leafNode: string[] = []
+    let count = 0;
 
-    const travelling = (node: TreeNode | null, path = '') => {
-        if (node.left === null && node.right === null) leafNode.push(path)
+    function dfs(node: TreeNode | null): number[] {
+        if (!node) return [];
+        if (!node.left && !node.right) return [0];
 
-        if (node.left !== null) {
-            travelling(node.left, `${path}L`)
-        }
-        if (node.right !== null) {
-            travelling(node.right, `${path}R`)
-        }
-    }
-    travelling(root)
+        const left = dfs(node.left);
+        const right = dfs(node.right);
 
-    for (let i = 0; i < leafNode.length - 1; i++) {
-        for (let j = i + 1; j < leafNode.length; j++) {
-            let leaf1 = leafNode[i]
-            let leaf2 = leafNode[j]
-
-            while (leaf1.at(0) === leaf2.at(0)) {
-                leaf1 = leaf1.slice(1)
-                leaf2 = leaf2.slice(1)
+        for (const l of left) {
+            for (const r of right) {
+                if (l + r + 2 <= distance) {
+                    count++;
+                }
             }
-
-            res += leaf1.length + leaf2.length <= distance ? 1 : 0
         }
+
+        return [...left, ...right].map(d => d + 1).filter(d => d < distance);
     }
 
-    return res
-};
-
-/**
-98 1 1
-15 2 2
-78 3 2
-
-
- */
+    dfs(root);
+    return count;
+}
