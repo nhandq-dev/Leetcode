@@ -26,7 +26,7 @@ function countPairs(root: TreeNode | null, distance: number): number {
             travelling(node.right, `${path}R`)
         }
     }
-    travelling(root, 'U')
+    travelling(root)
 
     for (let i = 0; i < leafNode.length - 1; i++) {
         for (let j = i + 1; j < leafNode.length; j++) {
