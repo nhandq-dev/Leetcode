@@ -72,6 +72,48 @@ function findTheCity(n: number, edges: number[][], distanceThreshold: number): n
             }
         }
     }
+    for (const [city1, city2, w] of edges) {
+        if (w > distanceThreshold) continue
+        const neighbor1 = Array.from(cityMap.get(city1).keys())
+        const neighbor2 = Array.from(cityMap.get(city2).keys())
+
+        for (const n1 of neighbor1) {
+            if (n1 !== city2 && cityMap.get(n1).get(city1) + w <= distanceThreshold) {
+                cityMap.get(n1).set(city2, Math.min(cityMap.get(n1).get(city1) + w, (cityMap.get(n1).get(city2) || Number.POSITIVE_INFINITY)))
+
+                neighMap.set(n1, cityMap.get(n1).size)
+            }
+        }
+
+        for (const n2 of neighbor2) {
+            if (n2 !== city1 && cityMap.get(n2).get(city2) + w <= distanceThreshold) {
+                cityMap.get(n2).set(city1, Math.min(cityMap.get(n2).get(city2) + w, (cityMap.get(n2).get(city1) || Number.POSITIVE_INFINITY)))
+
+                neighMap.set(n2, cityMap.get(n2).size)
+            }
+        }
+    }
+    for (const [city1, city2, w] of edges) {
+        if (w > distanceThreshold) continue
+        const neighbor1 = Array.from(cityMap.get(city1).keys())
+        const neighbor2 = Array.from(cityMap.get(city2).keys())
+
+        for (const n1 of neighbor1) {
+            if (n1 !== city2 && cityMap.get(n1).get(city1) + w <= distanceThreshold) {
+                cityMap.get(n1).set(city2, Math.min(cityMap.get(n1).get(city1) + w, (cityMap.get(n1).get(city2) || Number.POSITIVE_INFINITY)))
+
+                neighMap.set(n1, cityMap.get(n1).size)
+            }
+        }
+
+        for (const n2 of neighbor2) {
+            if (n2 !== city1 && cityMap.get(n2).get(city2) + w <= distanceThreshold) {
+                cityMap.get(n2).set(city1, Math.min(cityMap.get(n2).get(city2) + w, (cityMap.get(n2).get(city1) || Number.POSITIVE_INFINITY)))
+
+                neighMap.set(n2, cityMap.get(n2).size)
+            }
+        }
+    }
 
     for (let i = 0; i < n; i++) {
         if (neighMap.get(i) < minNeigh) {
