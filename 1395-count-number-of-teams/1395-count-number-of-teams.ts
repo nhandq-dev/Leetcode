@@ -45,7 +45,7 @@ class SortedNum {
             }
         }
 
-        return this.nums.slice(l)
+        return [...this.nums.slice(l)]
     }
 
     // O(log(n))
@@ -62,20 +62,20 @@ class SortedNum {
             }
         }
 
-        return this.nums.slice(0, l)
+        return [...this.nums.slice(0, l)]
     }
 }
 
 function numTeams(rating: number[]): number {
     const n = rating.length
-    const setOfQueue: SortedNum[] = []
+    const setOfQueue: number[][][] = []
     const currQueue = new SortedNum()
     const idxOfRating: Map<number, number> = new Map()
 
     // nlog(n)
     for (let i = n - 1; i >= 1; i--) {
         currQueue.insert(rating[i])
-        setOfQueue.unshift(new SortedNum(currQueue.get()))
+        setOfQueue.unshift([currQueue.getBiggerThan(rating[i-1]), currQueue.getSmallerThan(rating[i-1])])
         idxOfRating.set(rating[i], i)
     }
 
@@ -83,17 +83,17 @@ function numTeams(rating: number[]): number {
 
     for (let i = 0; i < n - 2; i++) {
         const currRate = rating[i]
-        const biggerThanCurr = setOfQueue[i].getBiggerThan(currRate)
-        const smallerThanCurr = setOfQueue[i].getSmallerThan(currRate)
+        const biggerThanCurr = setOfQueue[i][0]
+        const smallerThanCurr = setOfQueue[i][1]
 
         if (biggerThanCurr.length >= 2) {
             for (const bigger of biggerThanCurr) {
-                res += idxOfRating.get(bigger) < n - 1 ? setOfQueue[idxOfRating.get(bigger)].getBiggerThan(bigger).length : 0
+                res += idxOfRating.get(bigger) < n - 1 ? setOfQueue[idxOfRating.get(bigger)][0].length : 0
             }
         }
         if (smallerThanCurr.length >= 2) {
             for (const smaller of smallerThanCurr) {
-                res += idxOfRating.get(smaller) < n - 1 ? setOfQueue[idxOfRating.get(smaller)].getSmallerThan(smaller).length : 0
+                res += idxOfRating.get(smaller) < n - 1 ? setOfQueue[idxOfRating.get(smaller)][1].length : 0
             }
         }
     }
@@ -101,15 +101,3 @@ function numTeams(rating: number[]): number {
 
     return res
 };
-
-/**
-
-2   5   3   4   1
-
-1   1   1   1
-3   3   4
-4   4
-5
-
-
- */
