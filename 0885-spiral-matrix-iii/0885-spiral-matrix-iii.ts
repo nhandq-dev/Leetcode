@@ -19,37 +19,40 @@ function spiralMatrixIII(rows: number, cols: number, rStart: number, cStart: num
         // go right
         for (let i = 1; i <= direction.get('right'); i++) {
             currP[1] += 1;
-            if (isInvalidPoint(currP)) res.push([currP[0], currP[1]])
+
+            if (isInvalidPoint(currP)) {
+                res.push([currP[0], currP[1]])
+            }
         }
         direction.set('right', direction.get('right') + 2)
-        if (res.length === rows * cols) {
-            break
-        }
 
         // Go down
         for (let i = 1; i <= direction.get('down'); i++) {
             currP[0] += 1;
-            if (isInvalidPoint(currP)) res.push([currP[0], currP[1]])
+
+            if (isInvalidPoint(currP)) {
+                res.push([currP[0], currP[1]])
+            }
         }
         direction.set('down', direction.get('down') + 2)
-        if (res.length === rows * cols) {
-            break
-        }
 
         // Go left
         for (let i = 1; i <= direction.get('left'); i++) {
             currP[1] -= 1;
-            if (isInvalidPoint(currP)) res.push([currP[0], currP[1]])
+
+            if (isInvalidPoint(currP)) {
+                res.push([currP[0], currP[1]])
+            }
         }
         direction.set('left', direction.get('left') + 2)
-        if (res.length === rows * cols) {
-            break
-        }
 
         // Go up
         for (let i = 1; i <= direction.get('up'); i++) {
             currP[0] -= 1;
-            if (isInvalidPoint(currP)) res.push([currP[0], currP[1]])
+
+            if (isInvalidPoint(currP)) {
+                res.push([currP[0], currP[1]])
+            }
         }
         direction.set('up', direction.get('up') + 2)
     }
