@@ -1,36 +1,31 @@
 function canChange(start: string, target: string): boolean {
-    if(start === target) return true;
+    const n = start.length
 
-    let i = 0; // iterate over start string
-    let j = 0; // iterate over target string
+    const nextLetter = (str: string, from: number) => {
+        let runner = from
 
-    while(i < start.length || j < target.length){
-
-        if(start[i] == "_") {
-            i++;
-            continue;
+        while (str.charAt(runner) === '_' && runner < n) {
+            runner++
         }
 
-        if(target[j] == "_") {
-            j++;
-            continue;
-        }
-
-        if(start[i] != target[j]){
-            return false;
-        }
-
-        if(start[i] == "L" && i < j) {
-            return false;
-        }
-
-        if(start[i] == "R" && i > j){
-            return false;
-        }
-
-        i++;
-        j++;
+        return runner
     }
 
-    return true;
+    let sRunner = -1, tRunner = -1
+
+    while (tRunner < n && sRunner < n) {
+        sRunner = nextLetter(start, sRunner + 1)
+        tRunner = nextLetter(target, tRunner + 1)
+        console.log(sRunner, tRunner)
+
+        if (start.charAt(sRunner) !== target.charAt(tRunner)) return false
+
+        if (target.charAt(tRunner) === 'L') {
+            if (tRunner > sRunner) return false
+        } else {
+            if (tRunner < sRunner) return false
+        }
+    }
+
+    return true
 };
