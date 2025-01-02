@@ -1,29 +1,16 @@
 function vowelStrings(words: string[], queries: number[][]): number[] {
-    const VOWEL_LETTERS = ['a', 'e', 'o', 'u', 'i']
-    const prefixSum: number[] = [0]
-    const validString = _.memoize((str: string) => {
-        return VOWEL_LETTERS.includes(str.charAt(0)) && VOWEL_LETTERS.includes(str.charAt(str.length - 1))
-    })
-    for (const w of words) {
-        prefixSum.push(prefixSum[prefixSum.length - 1] + validString(w))
+    // Set of vowels for quick lookup
+    const vowelSet = new Set(['a', 'e', 'i', 'o', 'u']);
+
+    // Prefix sum array to store cumulative counts of "vowel strings"
+    const prefixSum: number[] = [0];
+
+    // Build the prefix sum array
+    for (const word of words) {
+        const isVowelString = vowelSet.has(word[0]) && vowelSet.has(word[word.length - 1]);
+        prefixSum.push(prefixSum[prefixSum.length - 1] + (isVowelString ? 1 : 0));
     }
 
-    return queries.map(([s, e]) => prefixSum[e + 1] - prefixSum[s])
+    // Compute results for each query using the prefix sum array
+    return queries.map(([start, end]) => prefixSum[end + 1] - prefixSum[start]);
 };
-
-/**
-function vowelStrings(words: string[], queries: number[][]): number[] {
-    const VOWEL_LETTERS = ['a', 'e', 'o', 'u', 'i']
-    const validString = _.memoize((str: string) => {
-        return VOWEL_LETTERS.includes(str.charAt(0)) && VOWEL_LETTERS.includes(str.charAt(str.length - 1))
-    })
-
-    return queries.map(([start, end]) => {
-        let res = 0
-        for (let i = start; i <= end; i++) {
-            if (validString(words[i])) res++
-        }
-        return res
-    })
-};
- */
