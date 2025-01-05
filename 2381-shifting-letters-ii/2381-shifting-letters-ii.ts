@@ -10,6 +10,6 @@ function shiftingLetters(s: string, shifts: number[][]): string {
     let carry = 0
     return s.split('').map((_, idx: number) => {
         carry += diffArr[idx]
-        return String.fromCharCode(97 + (s.charCodeAt(idx) + carry - 26 - 97) % 26)
+        return String.fromCharCode(97 + (s.charCodeAt(idx) - 97 + carry - 26) % 26)
     }).join('')
 };
