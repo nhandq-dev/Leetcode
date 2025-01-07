@@ -12,8 +12,10 @@ function minOperations(boxes: string): number[] {
         prefixStep[i] += prefixStep[i - 1]
         sufixStep[i] += sufixStep[i - 1]
     }
+    prefixStep.unshift(0)
+    sufixStep.unshift(0)
 
     return Array.from({ length: n }).map((_, idx: number) => {
-        return (sufixStep[n - 2 - idx] || 0) + (prefixStep[idx-1] || 0)
+        return sufixStep[n - 1 - idx] + prefixStep[idx]
     })
 };
