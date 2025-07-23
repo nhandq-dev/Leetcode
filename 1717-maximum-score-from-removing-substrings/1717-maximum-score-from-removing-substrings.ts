@@ -53,7 +53,7 @@ function removingSubFromS(s: string, match: string) {
 }
 
 function maximumGain(s: string, x: number, y: number): number {
-    // s = minimize(s)
+    s = minimize(s)
     let n = s.length
     let res = 0
 
