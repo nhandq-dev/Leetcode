@@ -1,23 +1,18 @@
 function productQueries(n: number, queries: number[][]): number[] {
     if (n === 2) return [2];
+    const MOD = 10**9+7
     const powers: number[] = getPower(n);
-    let res: number[] = new Array(queries.length).fill(1);
+    const prefixProd: bigint[] = [1n]
 
-    for (let i = 0; i < queries.length; i++) {
-        const q = queries[i];
-        if (q[0] === q[1]) {
-            res[i] = powers[q[0]];
-        } else {
-            for (let j = q[0]; j <= q[1]; j++) {
-                res[i] = (res[i] * powers[j]) % (10 ** 9 + 7);
-            }
-        }
+    for (let i = 0; i < powers.length; i++) {
+        prefixProd.push(prefixProd[prefixProd.length - 1] * BigInt(powers[i]))
     }
 
-    return res;
+    return queries.map(([left, right]) => {
+        return Number(prefixProd[right + 1] / BigInt(prefixProd[left])) % MOD
+    })
 };
 
-// 6, [0,0]
 function getPower(n: number): number[] {
     const answer: number[] = []
 
